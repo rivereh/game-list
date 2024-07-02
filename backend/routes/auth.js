@@ -6,21 +6,6 @@ const { generateToken } = require('../utils/generateToken')
 // register
 router.post('/register', async (req, res) => {
   try {
-    // generate hashed password
-    // const salt = await bcrypt.genSalt(10)
-    // const hashedPassword = await bcrypt.hash(req.body.password, salt)
-
-    // // create new user
-    // const newUser = await new User({
-    //   username: req.body.username,
-    //   email: req.body.email,
-    //   password: hashedPassword,
-    // })
-
-    // // save user to db
-    // const user = await newUser.save()
-    // res.status(200).json(user)
-
     const { username, email, password } = req.body
     const userExists = await User.findOne({ email })
 
@@ -40,10 +25,6 @@ router.post('/register', async (req, res) => {
         _id: user._id,
         username: user.username,
         email: user.email,
-        followers: user.followers,
-        following: user.following,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
       })
     } else {
       return res.status(400).json({ message: 'Invalid user data' })

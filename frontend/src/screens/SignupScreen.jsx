@@ -1,6 +1,12 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { jwtDecode } from 'jwt-decode'
+
+import { useNavigate } from 'react-router-dom'
+
+import { useRegisterMutation } from '../slices/userApiSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCredentials } from '../slices/authSlice'
 
 const SignupScreen = () => {
   const [username, setUsername] = useState('')
@@ -8,7 +14,36 @@ const SignupScreen = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
-  const submitHandler = () => {}
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const { userInfo } = useSelector((state) => state.auth)
+  const [register, { isLoading }] = useRegisterMutation()
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate('/home')
+    }
+  }, [navigate, userInfo])
+
+  const submitHandler = async (e) => {
+    e.preventDefault()
+    if (password != confirmPassword) {
+      toast.error('Passwords do not match')
+    } else {
+      try {
+        const res = await register({
+          username,
+          email,
+          password,
+        }).unwrap()
+        dispatch(setCredentials({ ...res }))
+        navigate('/home')
+      } catch (err) {
+        toast.error(err?.data?.message || err.error)
+      }
+    }
+  }
 
   return (
     <div className='flex justify-center'>
@@ -74,17 +109,14 @@ const SignupScreen = () => {
               <input
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 id='password'
-                type='confirmPassword'
+                type='password'
                 placeholder='Confirm Password'
                 value={confirmPassword}
-                onChange={(e) => e.target.value}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
             <div className='flex items-center justify-between'>
-              <button
-                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                type='button'
-              >
+              <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
                 Signup
               </button>
             </div>
