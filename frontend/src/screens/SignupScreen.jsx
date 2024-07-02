@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { useRegisterMutation } from '../slices/userApiSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCredentials } from '../slices/authSlice'
+import { GoogleLogin } from '@react-oauth/google'
 
 const SignupScreen = () => {
   const [username, setUsername] = useState('')
@@ -25,6 +26,34 @@ const SignupScreen = () => {
       navigate('/home')
     }
   }, [navigate, userInfo])
+
+  const googleSignup = async (response) => {
+    const { email, sub } = jwtDecode(response.credential)
+    // fetch random username
+    let generatedUsername
+
+    try {
+      const res = await fetch('https://randomuser.me/api/')
+      const data = await res.json()
+      generatedUsername = data.results[0].login.username
+    } catch (error) {
+      toast.error('Failed to fetch a random username')
+      return
+    }
+
+    try {
+      const res = await register({
+        username: generatedUsername,
+        email,
+        password: sub,
+        googleAccount: true,
+      }).unwrap()
+      dispatch(setCredentials({ ...res }))
+      navigate('/home')
+    } catch (err) {
+      toast.error(err?.data?.message || err.error)
+    }
+  }
 
   const submitHandler = async (e) => {
     e.preventDefault()
@@ -115,10 +144,22 @@ const SignupScreen = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
-            <div className='flex items-center justify-between'>
+            <div className='flex items-center justify-center'>
               <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
                 Signup
               </button>
+            </div>
+            <div className='mt-5 grid grid-cols-3 items-center text-gray-500'>
+              <hr className='border-gray-500' />
+              <p className='text-center'>OR</p>
+              <hr className='border-gray-500' />
+            </div>
+            <div className='mt-5 flex justify-center'>
+              <GoogleLogin
+                onSuccess={(response) => googleSignup(response)}
+                onError={() => console.log('error')}
+                text={'signup_with'}
+              />
             </div>
           </form>
         </div>

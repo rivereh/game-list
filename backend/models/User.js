@@ -19,6 +19,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    googleAccount: {
+      type: Boolean,
+      default: false,
+    },
     profilePicture: {
       type: String,
       default: '',

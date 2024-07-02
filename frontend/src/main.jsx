@@ -15,15 +15,20 @@ import SignupScreen from './screens/SignupScreen.jsx'
 import LandingScreen from './screens/LandingScreen.jsx'
 import HomeScreen from './screens/HomeScreen.jsx'
 import SearchScreen from './screens/SearchScreen.jsx'
+import PrivateRoute from './components/PrivateRoute.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
-      <Route index={true} path='/' element={<LandingScreen />} />
+      <Route path='/' element={<LandingScreen />} />
       <Route path='/login' element={<LoginScreen />} />
       <Route path='/signup' element={<SignupScreen />} />
-      <Route path='/home' element={<HomeScreen />} />
-      <Route path='/search' element={<SearchScreen />} />
+      <Route path='' element={<PrivateRoute />}>
+        <Route path='/home' element={<HomeScreen />} />
+      </Route>
+      <Route path='' element={<PrivateRoute />}>
+        <Route path='/search' element={<SearchScreen />} />
+      </Route>
     </Route>
   )
 )
