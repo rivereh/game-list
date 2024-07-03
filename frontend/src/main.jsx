@@ -17,6 +17,7 @@ import HomeScreen from './screens/HomeScreen.jsx'
 import SearchScreen from './screens/SearchScreen.jsx'
 import PrivateRoute from './components/PrivateRoute.jsx'
 import ProfileScreen from './screens/ProfileScreen.jsx'
+import UserScreen from './screens/UserScreen.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,6 +33,9 @@ const router = createBrowserRouter(
       </Route>
       <Route path='' element={<PrivateRoute />}>
         <Route path='/profile' element={<ProfileScreen />} />
+      </Route>
+      <Route path='' element={<PrivateRoute />}>
+        <Route path='/user/:userId' element={<UserScreen />} />
       </Route>
     </Route>
   )
