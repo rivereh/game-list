@@ -63,12 +63,20 @@ const Navbar = () => {
 
         <div className='hidden md:flex space-x-4'>
           {userInfo ? (
-            <Link
-              onClick={logoutHandler}
-              className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
-            >
-              Logout
-            </Link>
+            <div className='flex gap-3'>
+              <Link
+                onClick={logoutHandler}
+                className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
+              >
+                Logout
+              </Link>
+              <Link
+                to='/profile'
+                className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
+              >
+                Profile
+              </Link>
+            </div>
           ) : (
             <>
               <Link
