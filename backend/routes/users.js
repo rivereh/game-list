@@ -20,31 +20,31 @@ router.post('/login', loginUser)
 router.post('/logout', logoutUser)
 
 // update user
-router.put('/:id', async (req, res) => {
-  if (req.body.userId === req.params.id || req.body.isAdmin) {
-    if (req.body.password) {
-      try {
-        const salt = await bcrypt.genSalt(10)
-        req.body.password = await bcrypt.hash(req.body.password, salt)
-      } catch (error) {
-        return res.status(500).json(error)
-      }
-    }
-    try {
-      const user = await User.findByIdAndUpdate(req.params.id, {
-        $set: req.body,
-      })
-      res.status(200).json({ message: 'Account has been updated' })
-    } catch (error) {
-      return res.status(500).json(error)
-    }
-  } else {
-    return res.status(403).json({ message: 'You can only update your account' })
-  }
-})
+// router.put('/:id', async (req, res) => {
+//   if (req.body.userId === req.params.id || req.body.isAdmin) {
+//     if (req.body.password) {
+//       try {
+//         const salt = await bcrypt.genSalt(10)
+//         req.body.password = await bcrypt.hash(req.body.password, salt)
+//       } catch (error) {
+//         return res.status(500).json(error)
+//       }
+//     }
+//     try {
+//       const user = await User.findByIdAndUpdate(req.params.id, {
+//         $set: req.body,
+//       })
+//       res.status(200).json({ message: 'Account has been updated' })
+//     } catch (error) {
+//       return res.status(500).json(error)
+//     }
+//   } else {
+//     return res.status(403).json({ message: 'You can only update your account' })
+//   }
+// })
 
 // delete user
-router.delete('/profile', auth, deleteUser)
+router.route('/profile').delete(auth, deleteUser).put(auth, updateUser)
 
 // get a user
 router.get('/:id', getUser)

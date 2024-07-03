@@ -2,7 +2,6 @@ const User = require('../models/User')
 const bcrypt = require('bcrypt')
 const asyncHandler = require('express-async-handler')
 const { generateToken } = require('../utils/generateToken')
-const { auth } = require('../middleware/auth')
 
 // register
 const registerUser = async (req, res) => {
@@ -18,6 +17,7 @@ const registerUser = async (req, res) => {
       username,
       email,
       password,
+      googleAccount,
     })
 
     if (user) {
@@ -74,28 +74,30 @@ const logoutUser = async (req, res) => {
   }
 }
 
-const updateUser = async (req, res) => {
-  if (req.body.userId === req.params.id || req.body.isAdmin) {
+const updateUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id)
+
+  if (user) {
+    user.username = req.body.username || user.username
+    user.email = req.body.email || user.email
+
     if (req.body.password) {
-      try {
-        const salt = await bcrypt.genSalt(10)
-        req.body.password = await bcrypt.hash(req.body.password, salt)
-      } catch (error) {
-        return res.status(500).json(error)
-      }
+      user.password = req.body.password
     }
-    try {
-      const user = await User.findByIdAndUpdate(req.params.id, {
-        $set: req.body,
-      })
-      res.status(200).json({ message: 'Account has been updated' })
-    } catch (error) {
-      return res.status(500).json(error)
-    }
+
+    const updatedUser = await user.save()
+
+    res.status(200).json({
+      _id: updatedUser._id,
+      username: updatedUser.username,
+      email: updatedUser.email,
+      googleAccount: updatedUser.googleAccount,
+    })
   } else {
-    return res.status(403).json({ message: 'You can only update your account' })
+    res.status(404)
+    throw new Error('User not found')
   }
-}
+})
 
 // delete user
 const deleteUser = async (req, res) => {
