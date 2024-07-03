@@ -7,6 +7,7 @@ import { useUpdateUserMutation } from '../slices/userApiSlice'
 import { useDeleteUserMutation } from '../slices/userApiSlice'
 import { logout } from '../slices/authSlice'
 import Swal from 'sweetalert2'
+import { Oval } from 'react-loader-spinner'
 
 const ProfileScreen = () => {
   const [username, setUserame] = useState('')
@@ -18,7 +19,7 @@ const ProfileScreen = () => {
   const dispatch = useDispatch()
 
   const { userInfo } = useSelector((state) => state.auth)
-  const [updateProfile] = useUpdateUserMutation()
+  const [updateProfile, { isLoading }] = useUpdateUserMutation()
   const [deleteProfile] = useDeleteUserMutation()
 
   useEffect(() => {
@@ -170,6 +171,20 @@ const ProfileScreen = () => {
         >
           Delete Profile
         </button>
+        {isLoading && (
+          <div className='flex justify-center mt-6'>
+            <Oval
+              visible={true}
+              height='80'
+              width='80'
+              color='#5e5e5e'
+              secondaryColor='#1f1f1f'
+              ariaLabel='oval-loading'
+              wrapperStyle={{}}
+              wrapperClass=''
+            />
+          </div>
+        )}
       </div>
     </div>
   )

@@ -6,6 +6,7 @@ import { jwtDecode } from 'jwt-decode'
 import { toast } from 'react-toastify'
 import { setCredentials } from '../slices/authSlice'
 import { GoogleLogin } from '@react-oauth/google'
+import { Oval } from 'react-loader-spinner'
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
@@ -102,6 +103,20 @@ const LoginScreen = () => {
               />
             </div>
           </form>
+          {isLoading && (
+            <div className='flex justify-center mt-6'>
+              <Oval
+                visible={true}
+                height='80'
+                width='80'
+                color='#5e5e5e'
+                secondaryColor='#1f1f1f'
+                ariaLabel='oval-loading'
+                wrapperStyle={{}}
+                wrapperClass=''
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

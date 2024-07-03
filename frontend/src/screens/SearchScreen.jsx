@@ -1,19 +1,23 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import { Oval } from 'react-loader-spinner'
 
 const SearchScreen = () => {
   const [games, setGames] = useState([])
 
   const location = useLocation()
   const searchQuery = location.state.searchQuery
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const fetchGames = async () => {
+      setIsLoading(true)
       const response = await fetch(
         `https://api.rawg.io/api/games?key=${
           import.meta.env.VITE_RAWG_KEY
         }&search=${searchQuery}`
       )
+      setIsLoading(false)
       const data = await response.json()
       setGames(data.results)
     }
@@ -49,7 +53,24 @@ const SearchScreen = () => {
           ))}
         </div>
       ) : (
-        <p className='text-gray-700'>No results found.</p>
+        <>
+          {isLoading ? (
+            <div className='mt-6'>
+              <Oval
+                visible={true}
+                height='80'
+                width='80'
+                color='#5e5e5e'
+                secondaryColor='#1f1f1f'
+                ariaLabel='oval-loading'
+                wrapperStyle={{}}
+                wrapperClass=''
+              />
+            </div>
+          ) : (
+            <p className='text-gray-700'>No results found.</p>
+          )}
+        </>
       )}
     </div>
   )
