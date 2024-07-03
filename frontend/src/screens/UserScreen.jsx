@@ -1,11 +1,17 @@
 import { useParams } from 'react-router-dom'
 import { useGetUserQuery } from '../slices/userApiSlice'
+import { useGetTimelineQuery } from '../slices/postApiSlice'
 
 const UserScreen = () => {
   const { userId } = useParams()
-  const { data: user, error, isLoading } = useGetUserQuery(userId)
+  const { data: user } = useGetUserQuery(userId)
+  const { data: timeline } = useGetTimelineQuery()
 
   // Mock user data
+
+  if (timeline) {
+    console.log(timeline)
+  }
 
   // Mock posts data
   const posts = [

@@ -42,7 +42,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/${id}`,
         method: 'GET',
       }),
-      transformResponse: (response) => response,
     }),
   }),
 })
