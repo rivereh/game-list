@@ -3,21 +3,11 @@ import { useState, useEffect } from 'react'
 import { useGetTimelineQuery } from '../slices/postApiSlice'
 
 const HomeScreen = () => {
-  const { data: timeline } = useGetTimelineQuery()
+  const { data: timeline, refetch } = useGetTimelineQuery()
 
-  const posts = [
-    {
-      username: 'PlayerOne',
-      game: 'The Legend of Zelda',
-      dateCompleted: '2023-06-28',
-    },
-    {
-      username: 'GamerGirl',
-      game: 'Super Mario Odyssey',
-      dateCompleted: '2023-06-29',
-    },
-    { username: 'RetroRex', game: 'Pac-Man', dateCompleted: '2023-06-30' },
-  ]
+  useEffect(() => {
+    refetch()
+  }, [refetch])
 
   return (
     <div className='container mx-auto p-4'>

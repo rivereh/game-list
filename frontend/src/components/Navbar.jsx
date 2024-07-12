@@ -6,7 +6,7 @@ import { logout } from '../slices/authSlice'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState()
+  const [searchQuery, setSearchQuery] = useState('')
 
   const { userInfo } = useSelector((state) => state.auth)
 

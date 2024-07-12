@@ -30,10 +30,10 @@ router.put('/:id', async (req, res) => {
 })
 
 // delete a post
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
-    if (post.userId === req.body.userId) {
+    if (post.userId === req.user._id.toString()) {
       await post.deleteOne()
       res.status(200).json('Post has been deleted')
     } else {
@@ -79,13 +79,12 @@ router.get('/timeline/all', auth, async (req, res) => {
         return Post.find({ userId: friendId })
       })
     )
-    res
-      .status(200)
-      .json(
-        userPosts
-          .concat(...friendPosts)
-          .sort((a, b) => a.createdAt - b.createdAt)
-      )
+    res.status(200).json(
+      userPosts
+        .concat(...friendPosts)
+        .sort((a, b) => a.createdAt - b.createdAt)
+        .reverse()
+    )
   } catch (error) {
     res.status(500).json(error)
   }

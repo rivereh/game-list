@@ -5,6 +5,7 @@ import { IoIosAddCircleOutline } from 'react-icons/io'
 import { useCreatePostMutation } from '../slices/postApiSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import SearchResult from '../components/SearchResult'
 
 const SearchScreen = () => {
   const [games, setGames] = useState([])
@@ -13,20 +14,7 @@ const SearchScreen = () => {
   const searchQuery = location.state.searchQuery
   const [isLoading, setIsLoading] = useState(false)
   const [createPost] = useCreatePostMutation()
-
-  const dispatch = useDispatch()
-
-  const handleAddGame = async (gameId) => {
-    try {
-      const res = await createPost({
-        userId: userInfo._id,
-        gameId,
-      }).unwrap()
-      toast.success('Game logged')
-    } catch (err) {
-      toast.error(err?.data?.message || err.error)
-    }
-  }
+  const [loadingAddGame, setLoadingAddGame] = useState(false)
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -54,38 +42,7 @@ const SearchScreen = () => {
           {games.map(
             (game) =>
               game.background_image && (
-                <>
-                  <div
-                    key={game.id}
-                    className='bg-white p-4 rounded-lg shadow-md'
-                  >
-                    {game.background_image && (
-                      <img
-                        src={game.background_image}
-                        alt={game.name}
-                        className='w-full h-48 object-cover rounded-t-lg mb-4'
-                      />
-                    )}
-                    <div className='flex justify-between'>
-                      <div>
-                        <h2 className='text-xl font-bold mb-2'>{game.name}</h2>
-                        <p className='text-gray-700'>
-                          <strong>Released:</strong>{' '}
-                          {new Date(game.released).toLocaleDateString()}
-                        </p>
-                        <p className='text-gray-700'>
-                          <strong>Rating:</strong> {game.rating}
-                        </p>
-                      </div>
-                      <div
-                        className='self-end cursor-pointer'
-                        onClick={() => handleAddGame(game.id)}
-                      >
-                        <IoIosAddCircleOutline size={35} />
-                      </div>
-                    </div>
-                  </div>
-                </>
+                <SearchResult key={game.id} game={game} />
               )
           )}
         </div>
