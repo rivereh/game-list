@@ -90,4 +90,18 @@ router.get('/timeline/all', auth, async (req, res) => {
   }
 })
 
+// get timeline posts
+router.get('/timeline/:id', auth, async (req, res) => {
+  try {
+    const currentUser = await User.findById(req.params.id)
+    const userPosts = await Post.find({ userId: currentUser._id })
+
+    res
+      .status(200)
+      .json(userPosts.sort((a, b) => a.createdAt - b.createdAt).reverse())
+  } catch (error) {
+    res.status(500).json(error)
+  }
+})
+
 module.exports = router

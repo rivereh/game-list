@@ -10,15 +10,17 @@ const HomeScreen = () => {
   }, [refetch])
 
   return (
-    <div className='container mx-auto p-4'>
-      <h1 className='text-3xl font-bold mb-6'>Dashboard</h1>
-      {timeline && (
-        <div className='space-y-4'>
-          {timeline.map((post, index) => (
-            <Post key={index} {...post} />
-          ))}
-        </div>
-      )}
+    <div className='container mx-auto py-12 flex justify-center'>
+      <div>
+        <h1 className='text-3xl font-bold mb-6'>Dashboard</h1>
+        {timeline && (
+          <div className='space-y-4'>
+            {timeline.map((post, index) => (
+              <Post key={index} {...post} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

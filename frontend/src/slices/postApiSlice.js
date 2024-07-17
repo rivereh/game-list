@@ -30,6 +30,12 @@ export const postsApiSlice = apiSlice.injectEndpoints({
         method: 'GET',
       }),
     }),
+    getUserTimeline: builder.query({
+      query: (id) => ({
+        url: `${POSTS_URL}/timeline/${id}`,
+        method: 'GET',
+      }),
+    }),
   }),
 })
 
@@ -38,4 +44,5 @@ export const {
   useDeletePostMutation,
   useUpdatePostMutation,
   useGetTimelineQuery,
+  useGetUserTimelineQuery,
 } = postsApiSlice
