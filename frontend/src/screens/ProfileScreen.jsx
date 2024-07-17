@@ -24,7 +24,7 @@ const ProfileScreen = () => {
 
   useEffect(() => {
     if (userInfo) {
-      setUserame(userInfo.username)
+      setUserame(userInfo.displayName)
       setEmail(userInfo.email)
     }
   }, [userInfo.setUserame, userInfo.setEmail])
@@ -37,7 +37,8 @@ const ProfileScreen = () => {
       try {
         const res = await updateProfile({
           _id: userInfo.id,
-          username,
+          username: username.toLowerCase(),
+          displayName: username,
           email,
           password,
         }).unwrap()

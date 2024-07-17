@@ -14,7 +14,8 @@ const registerUser = async (req, res) => {
     }
 
     const user = await User.create({
-      username,
+      username: username.toLowerCase(),
+      displayName: username,
       email,
       password,
       googleAccount,
@@ -25,6 +26,7 @@ const registerUser = async (req, res) => {
       res.status(201).json({
         _id: user._id,
         username: user.username,
+        displayName: user.displayName,
         email: user.email,
         googleAccount: user.googleAccount,
       })
@@ -57,6 +59,7 @@ const loginUser = async (req, res) => {
     res.status(201).json({
       _id: user._id,
       username: user.username,
+      displayName: user.displayName,
       email: user.email,
       googleAccount: user.googleAccount,
     })
@@ -78,7 +81,9 @@ const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id)
 
   if (user) {
-    user.username = req.body.username || user.username
+    user.username =
+      req.body.username.toLowerCase() || user.username.toLowerCase()
+    user.displayName = req.body.displayName || user.displayName
     user.email = req.body.email || user.email
 
     if (req.body.password) {
@@ -90,6 +95,7 @@ const updateUser = asyncHandler(async (req, res) => {
     res.status(200).json({
       _id: updatedUser._id,
       username: updatedUser.username,
+      displayName: updatedUser.displayName,
       email: updatedUser.email,
       googleAccount: updatedUser.googleAccount,
     })
@@ -112,6 +118,26 @@ const getUser = asyncHandler(async (req, res) => {
     res.status(200).json({
       _id: user._id,
       username: user.username,
+      displayName: user.displayName,
+      email: user.email,
+      followers: user.followers,
+      following: user.following,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    })
+  } else {
+    res.status(400)
+    throw new Error('User not found')
+  }
+})
+
+const getUserId = asyncHandler(async (req, res) => {
+  const user = await User.findOne({ username: req.params.username })
+  if (user) {
+    res.status(200).json({
+      _id: user._id,
+      username: user.username,
+      displayName: user.displayName,
       email: user.email,
       followers: user.followers,
       following: user.following,
@@ -175,6 +201,7 @@ module.exports = {
   updateUser,
   deleteUser,
   getUser,
+  getUserId,
   followUser,
   unfollowUser,
 }

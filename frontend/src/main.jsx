@@ -35,7 +35,7 @@ const router = createBrowserRouter(
         <Route path='/profile' element={<ProfileScreen />} />
       </Route>
       <Route path='' element={<PrivateRoute />}>
-        <Route path='/user/:userId' element={<UserScreen />} />
+        <Route path='/user/:username' element={<UserScreen />} />
       </Route>
     </Route>
   )

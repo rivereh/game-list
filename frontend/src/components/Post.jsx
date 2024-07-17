@@ -42,8 +42,8 @@ const Post = ({ userId, gameId, _id, createdAt }) => {
       {user && game && (
         <div className='bg-white p-4 rounded-lg shadow-md flex justify-between max-w-2xl'>
           <div className=''>
-            <Link to={`/user/${userId}`}>
-              <h2 className='text-xl font-bold mb-2'>{user.username}</h2>
+            <Link to={`/user/${user.username}`}>
+              <h2 className='text-xl font-bold mb-2'>{user.displayName}</h2>
             </Link>
 
             <p className='text-gray-700'>

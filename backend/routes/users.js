@@ -10,6 +10,7 @@ const {
   updateUser,
   deleteUser,
   getUser,
+  getUserId,
 } = require('../controllers/userController')
 
 // register
@@ -48,6 +49,9 @@ router.route('/profile').delete(auth, deleteUser).put(auth, updateUser)
 
 // get a user
 router.get('/:id', getUser)
+
+// get a user
+router.get('/find/:username', getUserId)
 
 // follow a user
 router.put('/:id/follow', async (req, res) => {
