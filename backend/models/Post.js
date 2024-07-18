@@ -10,12 +10,18 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    desc: {
+    gameName: {
       type: String,
-      max: 500,
+    },
+    dateCompleted: {
+      type: String,
     },
     img: {
       type: String,
+    },
+    desc: {
+      type: String,
+      max: 500,
     },
     likes: {
       type: Array,

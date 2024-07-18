@@ -36,43 +36,43 @@ const Navbar = () => {
 
   return (
     <nav className='bg-gray-800 p-4'>
-      <div className='container-fluid flex justify-between items-center max-w-7xl'>
-        <Link to='/' className='text-white text-lg font-bold'>
+      <div className='container-fluid flex max-w-7xl items-center justify-between'>
+        <Link to='/' className='text-lg font-bold text-white'>
           GameTracker
         </Link>
         {userInfo && (
           <form
             onSubmit={handleSearch}
-            className='hidden md:flex items-center space-x-4'
+            className='hidden items-center space-x-4 md:flex'
           >
             <input
               type='text'
-              className='bg-gray-700 text-white rounded py-2 px-4 focus:outline-none'
+              className='rounded bg-gray-700 px-4 py-2 text-white focus:outline-none'
               placeholder='Search games...'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             <button
               type='submit'
-              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+              className='rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700'
             >
               Search
             </button>
           </form>
         )}
 
-        <div className='hidden md:flex space-x-4'>
+        <div className='hidden space-x-4 md:flex'>
           {userInfo ? (
             <div className='flex gap-3'>
               <Link
                 onClick={logoutHandler}
-                className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
+                className='rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600'
               >
                 Logout
               </Link>
               <Link
                 to='/profile'
-                className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
+                className='rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600'
               >
                 Profile
               </Link>
@@ -81,13 +81,13 @@ const Navbar = () => {
             <>
               <Link
                 to='/login'
-                className='bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-600'
+                className='rounded bg-blue-400 px-4 py-2 text-white hover:bg-blue-600'
               >
                 Login
               </Link>
               <Link
                 to='/signup'
-                className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
+                className='rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600'
               >
                 Signup
               </Link>
@@ -100,7 +100,7 @@ const Navbar = () => {
             className='text-white focus:outline-none'
           >
             <svg
-              className='w-6 h-6'
+              className='h-6 w-6'
               fill='none'
               stroke='currentColor'
               viewBox='0 0 24 24'
@@ -117,11 +117,11 @@ const Navbar = () => {
         </div>
       </div>
       {isOpen && (
-        <div className='md:hidden mt-2 space-y-2'>
-          <button className='block w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700'>
+        <div className='mt-2 space-y-2 md:hidden'>
+          <button className='block w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700'>
             Login
           </button>
-          <button className='block w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700'>
+          <button className='block w-full rounded bg-green-500 px-4 py-2 text-white hover:bg-green-700'>
             Register
           </button>
         </div>

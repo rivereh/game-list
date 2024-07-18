@@ -6,9 +6,9 @@ import { toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-const Post = ({ userId, gameId, _id, createdAt }) => {
+const Post = ({ userId, gameId, gameName, img, _id, createdAt }) => {
   const { data: user } = useGetUserQuery(userId)
-  const [game, setGame] = useState({})
+  // const [game, setGame] = useState({})
 
   const { userInfo } = useSelector((state) => state.auth)
 
@@ -23,31 +23,31 @@ const Post = ({ userId, gameId, _id, createdAt }) => {
     }
   }
 
-  useEffect(() => {
-    const fetchGame = async () => {
-      const response = await fetch(
-        `https://api.rawg.io/api/games/${gameId}?key=${
-          import.meta.env.VITE_RAWG_KEY
-        }`
-      )
-      const data = await response.json()
-      setGame(data)
-    }
+  // useEffect(() => {
+  //   const fetchGame = async () => {
+  //     const response = await fetch(
+  //       `https://api.rawg.io/api/games/${gameId}?key=${
+  //         import.meta.env.VITE_RAWG_KEY
+  //       }`
+  //     )
+  //     const data = await response.json()
+  //     setGame(data)
+  //   }
 
-    fetchGame()
-  }, [])
+  //   fetchGame()
+  // }, [])
 
   return (
     <>
-      {user && game && (
-        <div className='bg-white p-4 rounded-lg shadow-md flex justify-between max-w-2xl'>
+      {user && (
+        <div className='flex w-full justify-between rounded-lg bg-white p-4 shadow-md'>
           <div className=''>
             <Link to={`/user/${user.username}`}>
-              <h2 className='text-xl font-bold mb-2'>{user.displayName}</h2>
+              <h2 className='mb-2 text-xl font-bold'>{user.displayName}</h2>
             </Link>
 
             <p className='text-gray-700'>
-              <strong>Game:</strong> {game.name}
+              <strong>Game:</strong> {gameName}
             </p>
             <p className='text-gray-700'>
               <strong>Date Completed:</strong>{' '}
@@ -62,7 +62,7 @@ const Post = ({ userId, gameId, _id, createdAt }) => {
             )}
           </div>
           <div>
-            <img src={game.background_image} className='rounded-t-lg h-32' />
+            <img src={img} className='h-32 rounded-t-lg' />
           </div>
         </div>
       )}

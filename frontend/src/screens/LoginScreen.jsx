@@ -50,19 +50,19 @@ const LoginScreen = () => {
 
   return (
     <div className='flex justify-center'>
-      <div className='w-full max-w-md my-12'>
-        <div className='bg-white shadow-md rounded px-8 py-10'>
-          <h2 className='text-2xl font-bold text-center mb-6'>Login</h2>
+      <div className='my-12 w-full max-w-md'>
+        <div className='rounded bg-white px-8 py-10 shadow-md'>
+          <h2 className='mb-6 text-center text-2xl font-bold'>Login</h2>
           <form onSubmit={submitHandler}>
             <div className='mb-4'>
               <label
-                className='block text-gray-700 text-sm font-bold mb-2'
+                className='mb-2 block text-sm font-bold text-gray-700'
                 htmlFor='email'
               >
                 Email
               </label>
               <input
-                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                className='focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
                 id='email'
                 type='email'
                 placeholder='Email'
@@ -72,13 +72,13 @@ const LoginScreen = () => {
             </div>
             <div className='mb-6'>
               <label
-                className='block text-gray-700 text-sm font-bold mb-2'
+                className='mb-2 block text-sm font-bold text-gray-700'
                 htmlFor='password'
               >
                 Password
               </label>
               <input
-                className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                className='focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
                 id='password'
                 type='password'
                 placeholder='Password'
@@ -86,8 +86,8 @@ const LoginScreen = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <div className=' flex items-center justify-center'>
-              <button className='mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
+            <div className='flex items-center justify-center'>
+              <button className='focus:shadow-outline mt-4 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none'>
                 Login
               </button>
             </div>
@@ -104,7 +104,7 @@ const LoginScreen = () => {
             </div>
           </form>
           {isLoading && (
-            <div className='flex justify-center mt-6'>
+            <div className='mt-6 flex justify-center'>
               <Oval
                 visible={true}
                 height='80'

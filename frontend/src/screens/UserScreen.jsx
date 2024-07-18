@@ -9,6 +9,7 @@ import {
 } from '../slices/postApiSlice'
 import Post from '../components/Post'
 import { useState, useEffect } from 'react'
+import OpenAI from 'openai'
 
 const UserScreen = () => {
   const { username } = useParams()
@@ -24,6 +25,35 @@ const UserScreen = () => {
 
   if (timeline) {
     console.log(timeline)
+  }
+
+  const openai = new OpenAI({
+    apiKey: import.meta.env.VITE_GPT_KEY,
+    dangerouslyAllowBrowser: true,
+  })
+
+  async function getGPT() {
+    const gamesList = timeline.map((game) => {
+      return game.gameName
+    })
+
+    console.log(gamesList.toString())
+
+    const completion = await openai.chat.completions.create({
+      messages: [
+        {
+          role: 'system',
+          content:
+            "You will recommend five games based off an array that is sent by the user. You will respond with a json object with the following key value pairs. 'gameName' will have the name of the recommended game as the key and 'reason' will provide a description of how it relates to the games that have been sent as it's value",
+        },
+        {
+          role: 'user',
+          content: gamesList.toString(),
+        },
+      ],
+      model: 'gpt-3.5-turbo',
+    })
+    console.log(completion.choices[0])
   }
 
   // Mock posts data
@@ -67,11 +97,16 @@ const UserScreen = () => {
     // </div>
     <>
       {user && (
-        <div className='container mx-auto py-12 flex justify-center'>
+        <div className='container mx-auto flex justify-center py-12'>
           <div>
-            <h1 className='text-3xl font-bold mb-6'>
-              {user.displayName}'s Completed Games
-            </h1>
+            <div className='flex items-center justify-between'>
+              <h1 className='mb-6 text-3xl font-bold'>
+                {user.displayName}'s Completed Games
+              </h1>
+              <button className='h-10 rounded bg-blue-400 px-4 text-white hover:bg-blue-600'>
+                Follow
+              </button>
+            </div>
             {timeline && (
               <div className='space-y-4'>
                 {timeline.map((post, index) => (
@@ -82,6 +117,7 @@ const UserScreen = () => {
           </div>
         </div>
       )}
+      <button onClick={getGPT}>Get Recs</button>
     </>
   )
 }

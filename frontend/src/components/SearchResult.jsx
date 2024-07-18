@@ -12,11 +12,12 @@ const SearchResult = ({ game }) => {
 
   const handleAddGame = async (gameId) => {
     try {
-      console.log('starting')
       setIsLoading(true)
       const res = await createPost({
         userId: userInfo._id,
         gameId,
+        gameName: game.name,
+        img: game.background_image,
       }).unwrap()
       console.log(res)
       toast.success('Game logged')
@@ -27,17 +28,17 @@ const SearchResult = ({ game }) => {
   }
 
   return (
-    <div className='bg-white p-4 rounded-lg shadow-md'>
+    <div className='rounded-lg bg-white p-4 shadow-md'>
       {game.background_image && (
         <img
           src={game.background_image}
           alt={game.name}
-          className='w-full h-48 object-cover rounded-t-lg mb-4'
+          className='mb-4 h-48 w-full rounded-t-lg object-cover'
         />
       )}
       <div className='flex justify-between'>
         <div>
-          <h2 className='text-xl font-bold mb-2'>{game.name}</h2>
+          <h2 className='mb-2 text-xl font-bold'>{game.name}</h2>
           <p className='text-gray-700'>
             <strong>Released:</strong>{' '}
             {new Date(game.released).toLocaleDateString()}

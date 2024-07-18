@@ -173,7 +173,7 @@ const ProfileScreen = () => {
           Delete Profile
         </button>
         {isLoading && (
-          <div className='flex justify-center mt-6'>
+          <div className='mt-6 flex justify-center'>
             <Oval
               visible={true}
               height='80'

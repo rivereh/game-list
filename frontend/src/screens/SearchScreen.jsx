@@ -22,7 +22,7 @@ const SearchScreen = () => {
       const response = await fetch(
         `https://api.rawg.io/api/games?key=${
           import.meta.env.VITE_RAWG_KEY
-        }&search=${searchQuery}`
+        }&search=${searchQuery}`,
       )
       setIsLoading(false)
       const data = await response.json()
@@ -36,14 +36,14 @@ const SearchScreen = () => {
 
   return (
     <div className='container mx-auto p-4'>
-      <h1 className='text-3xl font-bold mb-6'>Search Results</h1>
+      <h1 className='mb-6 text-3xl font-bold'>Search Results</h1>
       {games.length > 0 ? (
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
           {games.map(
             (game) =>
               game.background_image && (
                 <SearchResult key={game.id} game={game} />
-              )
+              ),
           )}
         </div>
       ) : (

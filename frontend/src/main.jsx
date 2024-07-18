@@ -37,8 +37,8 @@ const router = createBrowserRouter(
       <Route path='' element={<PrivateRoute />}>
         <Route path='/user/:username' element={<UserScreen />} />
       </Route>
-    </Route>
-  )
+    </Route>,
+  ),
 )
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -46,5 +46,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
       <RouterProvider router={router} />
     </React.StrictMode>
-  </Provider>
+  </Provider>,
 )
