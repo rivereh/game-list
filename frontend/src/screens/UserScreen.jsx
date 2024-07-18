@@ -10,6 +10,7 @@ import {
 import Post from '../components/Post'
 import { useState, useEffect } from 'react'
 import OpenAI from 'openai'
+import { useSelector } from 'react-redux'
 
 const UserScreen = () => {
   const { username } = useParams()
@@ -17,6 +18,8 @@ const UserScreen = () => {
   const { data: timeline } = useGetUserTimelineQuery(user?._id, {
     skip: !user?._id,
   })
+
+  const { userInfo } = useSelector((state) => state.auth)
 
   // Mock user data
   if (user) {
@@ -103,9 +106,11 @@ const UserScreen = () => {
               <h1 className='mb-6 text-3xl font-bold'>
                 {user.displayName}'s Completed Games
               </h1>
-              <button className='h-10 rounded bg-blue-400 px-4 text-white hover:bg-blue-600'>
-                Follow
-              </button>
+              {userInfo._id !== user._id && (
+                <button className='h-10 rounded bg-blue-400 px-4 text-white hover:bg-blue-600'>
+                  Follow
+                </button>
+              )}
             </div>
             {timeline && (
               <div className='space-y-4'>
