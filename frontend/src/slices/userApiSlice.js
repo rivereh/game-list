@@ -30,6 +30,12 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    followUser: builder.mutation({
+      query: (id) => ({
+        url: `${USERS_URL}/${id}/follow`,
+        method: 'PUT',
+      }),
+    }),
     deleteUser: builder.mutation({
       query: (data) => ({
         url: `${USERS_URL}/profile`,
@@ -57,6 +63,7 @@ export const {
   useLogoutMutation,
   useRegisterMutation,
   useUpdateUserMutation,
+  useFollowUserMutation,
   useDeleteUserMutation,
   useGetUserQuery,
   useGetUserByUsernameQuery,

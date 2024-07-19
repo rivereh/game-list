@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom'
 import {
   useGetUserQuery,
   useGetUserByUsernameQuery,
+  useFollowUserMutation,
 } from '../slices/userApiSlice'
 import {
   useGetTimelineQuery,
@@ -11,6 +12,7 @@ import Post from '../components/Post'
 import { useState, useEffect } from 'react'
 import OpenAI from 'openai'
 import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 
 const UserScreen = () => {
   const { username } = useParams()
@@ -19,16 +21,9 @@ const UserScreen = () => {
     skip: !user?._id,
   })
 
+  const [followUserApiCall] = useFollowUserMutation()
+
   const { userInfo } = useSelector((state) => state.auth)
-
-  // Mock user data
-  if (user) {
-    console.log(user)
-  }
-
-  if (timeline) {
-    console.log(timeline)
-  }
 
   const openai = new OpenAI({
     apiKey: import.meta.env.VITE_GPT_KEY,
@@ -54,9 +49,18 @@ const UserScreen = () => {
           content: gamesList.toString(),
         },
       ],
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4o-mini',
     })
     console.log(completion.choices[0])
+  }
+
+  const handleFollow = async () => {
+    try {
+      await followUserApiCall(user._id).unwrap()
+      toast.success('User followed')
+    } catch (err) {
+      toast.error(err?.data?.message || err.error)
+    }
   }
 
   // Mock posts data
@@ -107,7 +111,10 @@ const UserScreen = () => {
                 {user.displayName}'s Completed Games
               </h1>
               {userInfo._id !== user._id && (
-                <button className='h-10 rounded bg-blue-400 px-4 text-white hover:bg-blue-600'>
+                <button
+                  onClick={handleFollow}
+                  className='h-10 rounded bg-blue-400 px-4 text-white hover:bg-blue-600'
+                >
                   Follow
                 </button>
               )}
