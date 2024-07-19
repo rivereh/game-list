@@ -3,6 +3,7 @@ import {
   useGetUserQuery,
   useGetUserByUsernameQuery,
   useFollowUserMutation,
+  useUnfollowUserMutation,
 } from '../slices/userApiSlice'
 import {
   useGetTimelineQuery,
@@ -22,6 +23,7 @@ const UserScreen = () => {
   })
 
   const [followUserApiCall] = useFollowUserMutation()
+  const [unfollowUserApiCall] = useUnfollowUserMutation()
 
   const { userInfo } = useSelector((state) => state.auth)
 
@@ -58,6 +60,15 @@ const UserScreen = () => {
     try {
       await followUserApiCall(user._id).unwrap()
       toast.success('User followed')
+    } catch (err) {
+      toast.error(err?.data?.message || err.error)
+    }
+  }
+
+  const handleUnfollow = async () => {
+    try {
+      await unfollowUserApiCall(user._id).unwrap()
+      toast.success('User unfollowed')
     } catch (err) {
       toast.error(err?.data?.message || err.error)
     }
@@ -110,12 +121,20 @@ const UserScreen = () => {
               <h1 className='mb-6 text-3xl font-bold'>
                 {user.displayName}'s Completed Games
               </h1>
-              {userInfo._id !== user._id && (
+              {userInfo._id !== user._id &&
+              !user.followers.includes(userInfo._id) ? (
                 <button
                   onClick={handleFollow}
                   className='h-10 rounded bg-blue-400 px-4 text-white hover:bg-blue-600'
                 >
                   Follow
+                </button>
+              ) : (
+                <button
+                  onClick={handleUnfollow}
+                  className='h-10 rounded bg-blue-400 px-4 text-white hover:bg-blue-600'
+                >
+                  Unfollow
                 </button>
               )}
             </div>
