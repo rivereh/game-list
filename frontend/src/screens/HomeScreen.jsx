@@ -4,19 +4,30 @@ import { useGetTimelineQuery } from '../slices/postApiSlice'
 
 const HomeScreen = () => {
   const { data: timeline, refetch } = useGetTimelineQuery()
+  const [posts, setPosts] = useState([])
+
+  useEffect(() => {
+    if (timeline) {
+      setPosts(timeline)
+    }
+  }, [timeline])
 
   useEffect(() => {
     refetch()
   }, [refetch])
 
+  const handlePostDeleted = (postId) => {
+    setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId))
+  }
+
   return (
     <div className='container mx-auto flex justify-center py-12'>
       <div>
         <h1 className='mb-6 text-3xl font-bold'>Dashboard</h1>
-        {timeline && (
+        {posts && (
           <div className='space-y-4'>
-            {timeline.map((post, index) => (
-              <Post key={index} {...post} />
+            {posts.map((post, index) => (
+              <Post key={index} {...post} onPostDeleted={handlePostDeleted} />
             ))}
           </div>
         )}

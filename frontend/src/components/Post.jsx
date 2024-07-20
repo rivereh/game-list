@@ -6,7 +6,15 @@ import { toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-const Post = ({ userId, gameId, gameName, img, _id, createdAt }) => {
+const Post = ({
+  userId,
+  gameId,
+  gameName,
+  img,
+  _id,
+  createdAt,
+  onPostDeleted,
+}) => {
   const { data: user } = useGetUserQuery(userId)
   // const [game, setGame] = useState({})
 
@@ -18,6 +26,7 @@ const Post = ({ userId, gameId, gameName, img, _id, createdAt }) => {
     try {
       await deletePost({ id: _id })
       toast.success('Game deleted!')
+      onPostDeleted(_id)
     } catch (err) {
       console.log(err)
     }

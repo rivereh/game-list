@@ -18,14 +18,38 @@ import { toast } from 'react-toastify'
 const UserScreen = () => {
   const { username } = useParams()
   const { data: user, isLoadingUser } = useGetUserByUsernameQuery(username)
-  const { data: timeline } = useGetUserTimelineQuery(user?._id, {
+
+  const {
+    data: timeline,
+    refetch,
+    itFetching: isFetchingTimeline,
+  } = useGetUserTimelineQuery(user?._id, {
     skip: !user?._id,
   })
+  const [posts, setPosts] = useState([])
+  const [hasFetched, setHasFetched] = useState(false)
 
   const [followUserApiCall] = useFollowUserMutation()
   const [unfollowUserApiCall] = useUnfollowUserMutation()
 
   const { userInfo } = useSelector((state) => state.auth)
+
+  useEffect(() => {
+    if (timeline) {
+      setPosts(timeline)
+    }
+  }, [timeline])
+
+  useEffect(() => {
+    if (!isFetchingTimeline && user?._id && !hasFetched) {
+      refetch()
+      setHasFetched(true) // Set flag to true after the first fetch
+    }
+  }, [refetch, user?._id, isFetchingTimeline, hasFetched])
+
+  const handlePostDeleted = (postId) => {
+    setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId))
+  }
 
   const openai = new OpenAI({
     apiKey: import.meta.env.VITE_GPT_KEY,
@@ -141,10 +165,14 @@ const UserScreen = () => {
                 </>
               )}
             </div>
-            {timeline && (
+            {posts && (
               <div className='space-y-4'>
-                {timeline.map((post, index) => (
-                  <Post key={index} {...post} />
+                {posts.map((post, index) => (
+                  <Post
+                    key={index}
+                    {...post}
+                    onPostDeleted={handlePostDeleted}
+                  />
                 ))}
               </div>
             )}
