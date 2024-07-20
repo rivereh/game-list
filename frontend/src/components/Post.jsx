@@ -53,30 +53,53 @@ const Post = ({
   return (
     <>
       {user && (
-        <div className='flex w-full justify-between rounded-lg bg-white p-4 shadow-md'>
-          <div className=''>
-            <Link to={`/user/${user.username}`}>
-              <h2 className='mb-2 text-xl font-bold'>{user.displayName}</h2>
-            </Link>
-
-            <p className='text-gray-700'>
-              <strong>Game:</strong> {gameName}
-            </p>
-            <p className='text-gray-700'>
-              <strong>Date Completed:</strong>{' '}
-              {new Date(createdAt).toLocaleDateString()}
-            </p>
-            {userId == userInfo._id && (
+        <div className='mx-auto mb-4 w-[400px] rounded-lg bg-white shadow-md'>
+          <div className='flex items-start border-b border-gray-200 p-4'>
+            {/* <img
+              src={user.profilePicture}
+              alt={`${user.displayName}'s profile`}
+              className='mr-4 h-12 w-12 rounded-full'
+            /> */}
+            <div className='flex-1'>
+              <Link
+                to={`/user/${user.username}`}
+                className='text-lg font-semibold text-gray-900 hover:underline'
+              >
+                {user.displayName}
+              </Link>
+              <p className='text-xs text-gray-500'>
+                {new Date(createdAt).toLocaleDateString()}
+              </p>
+            </div>
+            {userId === userInfo._id && (
               <FaRegTrashCan
                 onClick={handleDeletePost}
-                className='mt-7 cursor-pointer'
-                size={16}
+                className='cursor-pointer text-gray-500 hover:text-red-500'
+                size={18}
               />
             )}
           </div>
-          <div>
-            <img src={img} className='h-32 rounded-t-lg' />
+
+          <div className='p-4'>
+            <p className='text-base text-gray-800'>
+              <strong className='font-semibold'>Game:</strong> {gameName}
+            </p>
+
+            {img && (
+              <img
+                src={img}
+                alt='Game cover'
+                className='mt-2 h-48 w-full rounded-lg object-cover'
+              />
+            )}
           </div>
+
+          {/* <div className='border-t border-gray-200 p-4'>
+            <button className='text-blue-500 hover:underline'>Like</button>
+            <button className='ml-4 text-blue-500 hover:underline'>
+              Comment
+            </button>
+          </div> */}
         </div>
       )}
     </>
