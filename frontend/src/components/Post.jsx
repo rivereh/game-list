@@ -15,7 +15,7 @@ const Post = ({
   createdAt,
   onPostDeleted,
 }) => {
-  const { data: user } = useGetUserQuery(userId)
+  const { data: user, refetch: refetchUser } = useGetUserQuery(userId)
   // const [game, setGame] = useState({})
 
   const { userInfo } = useSelector((state) => state.auth)
@@ -31,6 +31,10 @@ const Post = ({
       console.log(err)
     }
   }
+
+  useEffect(() => {
+    refetchUser()
+  }, [refetchUser])
 
   // useEffect(() => {
   //   const fetchGame = async () => {

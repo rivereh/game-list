@@ -17,7 +17,7 @@ import { toast } from 'react-toastify'
 
 const UserScreen = () => {
   const { username } = useParams()
-  const { data: user, isLoadingUser } = useGetUserByUsernameQuery(username)
+  const { data: user, refetch: fetchUser } = useGetUserByUsernameQuery(username)
 
   const {
     data: timeline,
@@ -39,6 +39,10 @@ const UserScreen = () => {
       setPosts(timeline)
     }
   }, [timeline])
+
+  useEffect(() => {
+    fetchUser()
+  }, [username, fetchUser])
 
   useEffect(() => {
     if (!isFetchingTimeline && user?._id && !hasFetched) {
@@ -97,25 +101,6 @@ const UserScreen = () => {
       toast.error(err?.data?.message || err.error)
     }
   }
-
-  // Mock posts data
-  // const posts = [
-  //   {
-  //     id: 1,
-  //     game: 'The Legend of Zelda: Breath of the Wild',
-  //     dateCompleted: '2022-05-15',
-  //   },
-  //   {
-  //     id: 2,
-  //     game: 'God of War',
-  //     dateCompleted: '2022-04-20',
-  //   },
-  //   {
-  //     id: 3,
-  //     game: 'The Witcher 3: Wild Hunt',
-  //     dateCompleted: '2022-03-10',
-  //   },
-  // ]
 
   return (
     // <div className='container mx-auto my-12 max-w-2xl'>
