@@ -7,7 +7,9 @@
     "start": "node backend/main.js",
     "main": "nodemon backend/main.js",
     "client": "npm run dev --prefix frontend",
+    "clientts": "npm run dev --prefix frontend-ts",
     "dev": "concurrently \"npm run main\" \"npm run client\"",
+    "devts": "concurrently \"npm run main\" \"npm run clientts\"",
     "host": "concurrently \"npm run main\" \"npm run dev --prefix frontend -- --host\""
   },
   "keywords": [],
@@ -21,7 +23,9 @@
     "express": "^4.19.2",
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.4.4"
+    "mongoose": "^8.4.4",
+    "openai": "^4.67.3",
+    "sweetalert2": "^11.14.2"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

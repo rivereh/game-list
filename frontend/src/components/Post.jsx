@@ -53,7 +53,7 @@ const Post = ({
   return (
     <>
       {user && (
-        <div className='mx-auto mb-4 w-[400px] rounded-lg bg-white shadow-md'>
+        <div className='mx-auto mb-4 w-[500px] rounded-lg bg-white shadow-md'>
           <div className='flex items-start border-b border-gray-200 p-4'>
             {/* <img
               src={user.profilePicture}
@@ -89,7 +89,7 @@ const Post = ({
               <img
                 src={img}
                 alt='Game cover'
-                className='mt-2 h-48 w-full rounded-lg object-cover'
+                className='mt-2 w-full rounded-lg object-cover'
               />
             )}
           </div>

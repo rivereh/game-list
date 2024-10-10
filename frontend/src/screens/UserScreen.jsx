@@ -67,18 +67,39 @@ const UserScreen = () => {
 
     console.log(gamesList.toString())
 
+    // const completion = await openai.chat.completions.create({
+    //   messages: [
+    //     {
+    //       role: 'system',
+    //       content:
+    //         "You will recommend five games based off an array that is sent by the user. You will respond with a json object with the following key value pairs. 'gameName' will have the name of the recommended game as the key and 'reason' will provide a description of how it relates to the games that have been sent as it's value",
+    //     },
+    //     {
+    //       role: 'user',
+    //       content: gamesList.toString(),
+    //     },
+    //   ],
+    //   model: 'gpt-4o-mini',
+    // })
     const completion = await openai.chat.completions.create({
       messages: [
         {
-          role: 'system',
-          content:
-            "You will recommend five games based off an array that is sent by the user. You will respond with a json object with the following key value pairs. 'gameName' will have the name of the recommended game as the key and 'reason' will provide a description of how it relates to the games that have been sent as it's value",
-        },
-        {
           role: 'user',
-          content: gamesList.toString(),
+          content: [
+            {
+              type: 'text',
+              text: 'You are to act like a pokedex from pokemon. Identify the pokemon in the photo and respond with the information a pokedex would respond with.',
+            },
+            {
+              type: 'image_url',
+              image_url: {
+                url: 'https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/025.png',
+              },
+            },
+          ],
         },
       ],
+      max_tokens: 300,
       model: 'gpt-4o-mini',
     })
     console.log(completion.choices[0])
@@ -100,6 +121,39 @@ const UserScreen = () => {
     } catch (err) {
       toast.error(err?.data?.message || err.error)
     }
+  }
+
+  const onSelectFile = (e) => {
+    const file = e.target.files?.[0]
+    const reader = new FileReader()
+
+    reader.addEventListener('load', async () => {
+      // console.log(reader.result)
+      const completion = await openai.chat.completions.create({
+        messages: [
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: 'Describe what the image is.',
+              },
+              {
+                type: 'image_url',
+                image_url: {
+                  url: reader.result,
+                },
+              },
+            ],
+          },
+        ],
+        max_tokens: 300,
+        model: 'gpt-4o-mini',
+      })
+      console.log(completion.choices[0])
+    })
+
+    reader.readAsDataURL(file)
   }
 
   return (
@@ -165,6 +219,7 @@ const UserScreen = () => {
         </div>
       )}
       <button onClick={getGPT}>Get Recs</button>
+      <input type='file' accept='image/*' onChange={onSelectFile} />
     </>
   )
 }
