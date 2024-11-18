@@ -7,10 +7,7 @@
     "start": "node backend/main.js",
     "main": "nodemon backend/main.js",
     "client": "npm run dev --prefix frontend",
-    "clientts": "npm run dev --prefix frontend-ts",
-    "dev": "concurrently \"npm run main\" \"npm run client\"",
-    "devts": "concurrently \"npm run main\" \"npm run clientts\"",
-    "host": "concurrently \"npm run main\" \"npm run dev --prefix frontend -- --host\""
+    "dev": "concurrently \"npm run main\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
