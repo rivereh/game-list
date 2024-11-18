@@ -1,6 +1,8 @@
 import Post from '../components/Post.tsx'
 import { useState, useEffect } from 'react'
 import { useGetTimelineQuery } from '../slices/postApiSlice'
+import NewPostForm from '../components/NewPostForm.tsx'
+import HomeSidebar from '../components/HomeSidebar.tsx'
 
 interface IPost {
   _id: string
@@ -33,9 +35,14 @@ const HomeScreen = () => {
   }
 
   return (
-    <div className='container mx-auto flex justify-center py-12'>
-      <div>
+    <div className='mx-auto flex w-[896px] justify-center space-x-6 px-6 py-12'>
+      <div className='w-full'>
         <h1 className='mb-6 text-3xl font-bold'>Dashboard</h1>
+
+        {/* <div className='my-6'>
+          <NewPostForm />
+        </div> */}
+
         {posts && (
           <div className='space-y-4'>
             {posts.map((post: IPost, index: number) => (
@@ -43,6 +50,9 @@ const HomeScreen = () => {
             ))}
           </div>
         )}
+      </div>
+      <div>
+        <HomeSidebar />
       </div>
     </div>
   )

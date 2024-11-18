@@ -6,18 +6,9 @@ import { toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { RootState } from '../slices/authSlice'
+import { PostType } from '../types/Post'
 
-interface PostProps {
-  userId: string
-  gameId: string
-  gameName: string
-  img?: string // Optional property
-  _id: string
-  createdAt: string
-  onPostDeleted: (id: string) => void
-}
-
-const Post = (props: PostProps) => {
+const Post = (props: PostType) => {
   const { data: user, refetch: refetchUser } = useGetUserQuery(props.userId)
   const { userInfo } = useSelector((state: RootState) => state.auth)
   const [deletePost] = useDeletePostMutation()
@@ -39,7 +30,7 @@ const Post = (props: PostProps) => {
   return (
     <>
       {user && (
-        <div className='mx-auto mb-4 flex w-[500px] rounded-lg border-gray-500 bg-white shadow-md'>
+        <div className='mb-4 flex w-full rounded-lg border-gray-500 bg-white shadow-md'>
           {/* left side with user info */}
           <div className='w-2/3'>
             <div className='flex items-start px-3 py-4'>
