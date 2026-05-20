@@ -1,9 +1,8 @@
-const User = require('../models/User')
-const router = require('express').Router()
-const bcrypt = require('bcrypt')
-const { auth } = require('../middleware/auth')
-
-const {
+import express from 'express'
+import User from '../models/User.js'
+import bcrypt from 'bcrypt'
+import { auth } from '../middleware/auth.js'
+import {
   registerUser,
   loginUser,
   logoutUser,
@@ -11,7 +10,9 @@ const {
   deleteUser,
   getUser,
   getUserId,
-} = require('../controllers/userController')
+} from '../controllers/userController.js'
+
+const router = express.Router()
 
 // register
 router.post('/register', registerUser)
@@ -97,4 +98,4 @@ router.put('/:id/unfollow', auth, async (req, res) => {
   }
 })
 
-module.exports = router
+export default router

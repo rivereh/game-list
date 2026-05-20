@@ -1,7 +1,7 @@
-const User = require('../models/User')
-const bcrypt = require('bcrypt')
-const asyncHandler = require('express-async-handler')
-const { generateToken } = require('../utils/generateToken')
+import User from '../models/User.js'
+import bcrypt from 'bcrypt'
+import asyncHandler from 'express-async-handler'
+import { generateToken } from '../utils/generateToken.js'
 
 // register
 const registerUser = async (req, res) => {
@@ -194,7 +194,7 @@ const unfollowUser = async (req, res) => {
   }
 }
 
-module.exports = {
+export {
   registerUser,
   loginUser,
   logoutUser,

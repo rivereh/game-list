@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken')
-const asyncHandler = require('express-async-handler')
-const User = require('../models/User.js')
+import jwt from 'jsonwebtoken'
+import asyncHandler from 'express-async-handler'
+import User from '../models/User.js'
 
-const auth = asyncHandler(async (req, res, next) => {
+export const auth = asyncHandler(async (req, res, next) => {
   let token
 
   token = req.cookies.jwt
@@ -21,5 +21,3 @@ const auth = asyncHandler(async (req, res, next) => {
     throw new Error('Not authorized, no token')
   }
 })
-
-module.exports = { auth }

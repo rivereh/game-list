@@ -1,7 +1,9 @@
-const router = require('express').Router()
-const Post = require('../models/Post')
-const User = require('../models/User')
-const { auth } = require('../middleware/auth')
+import express from 'express'
+import Post from '../models/Post.js'
+import User from '../models/User.js'
+import { auth } from '../middleware/auth.js'
+
+const router = express.Router()
 
 // create a post
 router.post('/', auth, async (req, res) => {
@@ -77,13 +79,13 @@ router.get('/timeline/all', auth, async (req, res) => {
     const friendPosts = await Promise.all(
       currentUser.following.map((friendId) => {
         return Post.find({ userId: friendId })
-      })
+      }),
     )
     res.status(200).json(
       userPosts
         .concat(...friendPosts)
         .sort((a, b) => a.createdAt - b.createdAt)
-        .reverse()
+        .reverse(),
     )
   } catch (error) {
     res.status(500).json(error)
@@ -104,4 +106,4 @@ router.get('/timeline/:id', auth, async (req, res) => {
   }
 })
 
-module.exports = router
+export default router
